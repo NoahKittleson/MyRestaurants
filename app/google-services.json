@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "512907329197",
+    "firebase_url": "https://yelpfood-c0dad.firebaseio.com",
+    "project_id": "yelpfood-c0dad",
+    "storage_bucket": "yelpfood-c0dad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512907329197:android:dff6c1b29d00d12f",
+        "android_client_info": {
+          "package_name": "com.epicodus.myrestaurants"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512907329197-o754qjv6d5asn2dvkp626bff60f9bj58.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJmYsupa2AnPedsg5-blvTQLKFSjkOgNQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
