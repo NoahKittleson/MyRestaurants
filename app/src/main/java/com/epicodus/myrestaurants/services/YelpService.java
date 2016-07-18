@@ -4,6 +4,8 @@ package com.epicodus.myrestaurants.services;
 /**
  * Created by Guest on 7/7/16.
  */
+import android.util.Log;
+
 import com.epicodus.myrestaurants.models.Constants;
 import com.epicodus.myrestaurants.models.Restaurant;
 
@@ -49,6 +51,8 @@ public class YelpService {
 
         try {
             String jsonData = response.body().string();
+
+            Log.i("testing",jsonData);
             if (response.isSuccessful()) {
                 JSONObject yelpJSON = new JSONObject(jsonData);
                 JSONArray businessesJSON = yelpJSON.getJSONArray("businesses");
