@@ -1,6 +1,7 @@
 package com.epicodus.myrestaurants.ui;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,6 +22,7 @@ import com.epicodus.myrestaurants.adapters.RestaurantListAdapter;
 import com.epicodus.myrestaurants.models.Constants;
 import com.epicodus.myrestaurants.models.Restaurant;
 import com.epicodus.myrestaurants.services.YelpService;
+import com.epicodus.myrestaurants.util.OnRestaurantSelectedListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,9 +43,19 @@ public class RestaurantListFragment extends Fragment {
     private SharedPreferences.Editor mEditor;
     private RestaurantListAdapter mAdapter;
     public ArrayList<Restaurant> mRestaurants = new ArrayList<>();
+    private OnRestaurantSelectedListener mOnRestaurantSelectedListener;
 
     public RestaurantListFragment() {
         // Required empty public constructor
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mOnRestaurantSelectedListener = (OnRestaurantSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + e.getMessage());
+        }
     }
 
     @Override
@@ -69,7 +81,7 @@ public class RestaurantListFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants);
+                        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants, mOnRestaurantSelectedListener);
                         mRecyclerView.setAdapter(mAdapter);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
                         mRecyclerView.setLayoutManager(layoutManager);

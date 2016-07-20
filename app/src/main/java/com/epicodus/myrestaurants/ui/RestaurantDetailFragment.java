@@ -59,8 +59,8 @@ public class RestaurantDetailFragment extends Fragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRestaurant = Parcels.unwrap(getArguments().getParcelable("restaurant"));
-        mRestaurant = Parcels.unwrap(getArguments().getParcelable(Constants.EXTRA_KEY_RESTAURANTS));
+//        mRestaurant = Parcels.unwrap(getArguments().getParcelable("restaurant"));
+        mRestaurants = Parcels.unwrap(getArguments().getParcelable(Constants.EXTRA_KEY_RESTAURANTS));
         mPosition = getArguments().getInt(Constants.EXTRA_KEY_POSITION);
         mRestaurant = mRestaurants.get(mPosition);
     }
@@ -109,13 +109,6 @@ public class RestaurantDetailFragment extends Fragment implements View.OnClickLi
                             + "," + mRestaurant.getLongitude()
                             + "?q=(" + mRestaurant.getName() + ")"));
             startActivity(mapIntent);
-        }
-        if (v == mSaveRestaurantButton) {
-            DatabaseReference restaurantRef = FirebaseDatabase
-                    .getInstance()
-                    .getReference(Constants.FIREBASE_CHILD_RESTAURANTS);
-            restaurantRef.push().setValue(mRestaurant);
-            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         }
         if (v == mSaveRestaurantButton) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

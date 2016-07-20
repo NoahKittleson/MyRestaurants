@@ -28,11 +28,14 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by Guest on 7/18/16.
  */
 public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Restaurant, FirebaseRestaurantViewHolder>
         implements ItemTouchHelperAdapter {
+
     private DatabaseReference mRef;
     private OnStartDragListener mOnStartDragListener;
     private Context mContext;
@@ -76,10 +79,13 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
         });
     }
 
+
+
     @Override
     protected void populateViewHolder(final FirebaseRestaurantViewHolder viewHolder, Restaurant model, int position) {
-        viewHolder.bindRestaurant(model);
+
         mOrientation = viewHolder.itemView.getResources().getConfiguration().orientation;
+        viewHolder.bindRestaurant(model);
         if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             createDetailFragment(0);
         }
@@ -100,7 +106,8 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
                 int itemPosition = viewHolder.getAdapterPosition();
                 if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
                     createDetailFragment(itemPosition);
-                } else {
+                }
+                else {
                     Intent intent = new Intent(mContext, RestaurantDetailActivity.class);
                     intent.putExtra(Constants.EXTRA_KEY_POSITION, viewHolder.getAdapterPosition());
                     intent.putExtra(Constants.EXTRA_KEY_RESTAURANTS, Parcels.wrap(mRestaurants));
@@ -108,6 +115,7 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
                 }
             }
         });
+
     }
 
     private void createDetailFragment(int position) {
@@ -118,9 +126,9 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
     }
 
     @Override
-    public boolean onItemMove(int fromPosiiton, int toPosition) {
-        Collections.swap(mRestaurants, fromPosiiton, toPosition);
-        notifyItemMoved(fromPosiiton, toPosition);
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(mRestaurants, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
         return false;
     }
 
