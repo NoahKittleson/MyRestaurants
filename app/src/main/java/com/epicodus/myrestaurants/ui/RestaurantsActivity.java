@@ -38,6 +38,7 @@ import okhttp3.Response;
 
 public class RestaurantsActivity extends AppCompatActivity implements OnRestaurantSelectedListener {
     private Integer mPosition;
+    String mSource;
     ArrayList<Restaurant> mRestaurants;
     
     @Override
@@ -48,6 +49,7 @@ public class RestaurantsActivity extends AppCompatActivity implements OnRestaura
         if (savedInstanceState != null) {
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 mPosition = savedInstanceState.getInt(Constants.EXTRA_KEY_POSITION);
+                mSource = savedInstanceState.getString(Constants.KEY_SOURCE);
                 mRestaurants = Parcels.unwrap(savedInstanceState.getParcelable(Constants.EXTRA_KEY_RESTAURANTS));
 
                 if (mPosition != null && mRestaurants != null) {
@@ -66,13 +68,15 @@ public class RestaurantsActivity extends AppCompatActivity implements OnRestaura
 
         if (mPosition != null && mRestaurants != null) {
             outState.putInt(Constants.EXTRA_KEY_POSITION, mPosition);
+            outState.putString(Constants.KEY_SOURCE, mSource);
             outState.putParcelable(Constants.EXTRA_KEY_RESTAURANTS, Parcels.wrap(mRestaurants));
         }
     }
 
     @Override
-    public void onRestaurantSelected(Integer position, ArrayList<Restaurant> restaurants) {
+    public void onRestaurantSelected(Integer position, ArrayList<Restaurant> restaurants, String source) {
         mPosition = position;
+        mSource = source;
         mRestaurants = restaurants;
     }
 }

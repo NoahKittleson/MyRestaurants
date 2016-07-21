@@ -83,12 +83,13 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
 
     @Override
     protected void populateViewHolder(final FirebaseRestaurantViewHolder viewHolder, Restaurant model, int position) {
+        viewHolder.bindRestaurant(model);
 
         mOrientation = viewHolder.itemView.getResources().getConfiguration().orientation;
-        viewHolder.bindRestaurant(model);
         if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             createDetailFragment(0);
         }
+
         viewHolder.mRestaurantImageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -110,6 +111,7 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
                 else {
                     Intent intent = new Intent(mContext, RestaurantDetailActivity.class);
                     intent.putExtra(Constants.EXTRA_KEY_POSITION, viewHolder.getAdapterPosition());
+                    intent.putExtra(Constants.KEY_SOURCE, Constants.SOURCE_SAVED);
                     intent.putExtra(Constants.EXTRA_KEY_RESTAURANTS, Parcels.wrap(mRestaurants));
                     mContext.startActivity(intent);
                 }
@@ -119,7 +121,7 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
     }
 
     private void createDetailFragment(int position) {
-        RestaurantDetailFragment detailFragment = RestaurantDetailFragment.newInstance(mRestaurants, position);
+        RestaurantDetailFragment detailFragment = RestaurantDetailFragment.newInstance(mRestaurants, position, Constants.SOURCE_SAVED);
         FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.restaurantDetailContainer, detailFragment);
         ft.commit();
@@ -142,15 +144,15 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
         for (Restaurant restaurant : mRestaurants) {
             int index = mRestaurants.indexOf(restaurant);
             DatabaseReference ref = getRef(index);
-            restaurant.setIndex(Integer.toString(index));
-            ref.setValue(restaurant);
+            ref.child("index").setValue(Integer.toString(index));
+//            restaurant.setIndex(Integer.toString(index));
+//            ref.setValue(restaurant);
         }
     }
     @Override
     public void cleanup() {
         super.cleanup();
         setIndexInFirebase();
-        mRestaurants.clear();
         mRef.removeEventListener(mChildEventListener);
     }
 }
